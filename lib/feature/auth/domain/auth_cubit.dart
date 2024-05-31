@@ -40,6 +40,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> authenticate(String otp) async {
+    emit(AuthLoading());
     try {
       final User? result = await _authService.signInWithPhoneNumber(otp);
       if (result != null) {

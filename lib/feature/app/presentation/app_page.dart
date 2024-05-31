@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user/user.dart';
 
+import '../../../di.dart';
 import '../../auth/domain/auth_cubit.dart';
 
 class AppPage extends StatelessWidget {
@@ -19,7 +20,11 @@ class AppPage extends StatelessWidget {
             AuthUserAuthenticated(role: var userRole) =>
               userRole == UserRole.user
                   ? const UserMainPage()
-                  : const AdminMainPage(),
+                  : AdminMainPage(
+                      onLogout: () {
+                        getIt.get<AuthCubit>().signOut();
+                      },
+                    ),
             _ => const LoginScreen(),
           },
         ));
