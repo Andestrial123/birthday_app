@@ -26,14 +26,17 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> checkAuthentication() async {
+    final user = _authService.currentUser;
+    if (user != null) {
+      emit(AuthUserAuthenticated(
+        user.phoneNumber! == adminPhoneNumber ? UserRole.admin : UserRole.user,
+      ));
+    }
+  }
+
+  Future<void> signOut() async {
     _authService.signOut();
     emit(AuthInitial());
-    // final user = _authService.currentUser;
-    // if (user != null) {
-    //   emit(AuthUserAuthenticated(
-    //     user.phoneNumber! == adminPhoneNumber ? UserRole.admin : UserRole.user,
-    //   ));
-    // }
   }
 
   Future<void> authenticate(String otp) async {
