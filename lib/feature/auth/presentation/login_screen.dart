@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
@@ -43,7 +43,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               AuthUserAuthenticated(role: var userRole) =>
                 userRole == UserRole.admin
-                    ? const AdminMainPage()
+                    ? AdminMainPage(
+                        onLogout: () {
+                          getIt.get<AuthCubit>().signOut();
+                        },
+                      )
                     : const UserMainPage(),
               AuthError(error: var error) => Center(
                   child: Text(error),
