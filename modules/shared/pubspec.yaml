@@ -1,4 +1,4 @@
-name: admin
+name: shared
 description: "A new Flutter package project."
 version: 0.0.1
 homepage:
@@ -10,12 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core:
-  firebase_database:
-  flutter_bloc:
-
-  shared:
-    path: ../../modules/shared
 
 dev_dependencies:
   flutter_test:
