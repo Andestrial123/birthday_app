@@ -1,3 +1,4 @@
+import 'package:admin/constans/const.dart';
 import 'package:admin/features/quiz_screen/presentation/quiz_screen_layout.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,6 @@ class MainScreenLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const sb = SizedBox(height: 24);
     return Scaffold(
       appBar: AppBar(
         title: Text(titleAppBar),
@@ -30,10 +30,10 @@ class MainScreenLayout extends StatelessWidget {
                                   )));
                     },
                     child: const Text('Add quiz')),
-                sb,
+                sbH24,
                 ElevatedButton(
                     onPressed: () {}, child: const Text('Add map point')),
-                sb,
+                sbH24,
                 ElevatedButton(
                     onPressed: () {},
                     child: const Text('Add link with comment')),

@@ -1,13 +1,15 @@
+import 'package:admin/constans/const.dart';
 import 'package:flutter/material.dart';
-
 class QuestionModal extends StatelessWidget {
-  QuestionModal({super.key, required this.onSave});
-
   final Function(String) onSave;
-  final TextEditingController _contentController = TextEditingController();
+  final String title;
+
+  QuestionModal({required this.onSave, required this.title});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController questionController = TextEditingController();
+
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
@@ -17,39 +19,41 @@ class QuestionModal extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              'Title',
-              style: TextStyle(fontSize: 24),
-              textAlign: TextAlign.center,
+            Center(
+              child: Text(
+                title,
+                style: TextStyle(fontSize: 24),
+              ),
             ),
-            const SizedBox(height: 24),
+            sbH24,
             TextField(
-              controller: _contentController,
+              controller: questionController,
               decoration: const InputDecoration(
-                hintText: 'Write the text',
+                hintText: 'Write the question',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)),
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            sbH24,
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    onSave(_contentController.text);
-                    _contentController.clear();
+                    FocusScope.of(context).unfocus();
+                    onSave(questionController.text);
+                    questionController.clear();
                     Navigator.of(context).pop();
                   },
-                  child: const Text('Save'),
+                  child: Text('Save'),
                 ),
-                const SizedBox(width: 16),
+                sbH16,
                 ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text('Cancel'),
+                  child: Text('Cancel'),
                 ),
               ],
             ),
