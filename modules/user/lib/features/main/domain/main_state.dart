@@ -16,6 +16,12 @@ class MainLinkState extends MainState {
   MainLinkState(this.data);
 }
 
+class MainMapState extends MainState {
+  final MapModel data;
+
+  MainMapState(this.data);
+}
+
 class MainCorrectState extends MainState {}
 
 class MainIncorrectState extends MainState {

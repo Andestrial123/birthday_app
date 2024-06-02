@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:user/features/main/domain/main_cubit.dart';
 import 'package:user/features/main/presentation/widgets/incorrect_widget.dart';
+import 'package:user/features/main/presentation/widgets/map_util.dart';
 import 'package:user/features/main/presentation/widgets/quiz_widget.dart';
 import 'package:volume_control/volume_control.dart';
 
@@ -71,6 +72,18 @@ class _UserMainPageState extends State<UserMainPage> {
                           icon: const Icon(Icons.accessibility))
                     ],
                   ),
+                ),
+              MainMapState(data: var data) => Center(
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        await MapUtils.openMap(
+                            double.parse(data.coords?.split(",").first ?? ""),
+                            double.parse(data.coords?.split(",").last ?? ""));
+                        if (context.mounted) {
+                          context.read<MainCubit>().resetState();
+                        }
+                      },
+                      child: const Text("Click me")),
                 )
             };
           },
