@@ -2,6 +2,7 @@ name: user
 description: "A new Flutter package project."
 version: 0.0.1
 homepage:
+publish_to: none
 
 environment:
   sdk: '>=3.3.1 <4.0.0'
@@ -14,9 +15,12 @@ dependencies:
   firebase_database:
   flutter_bloc:
   get_it:
+  animated_hint_textfield: ^1.0.1
+
 
   shared:
     path: ../../modules/shared
+
 
 dev_dependencies:
   flutter_test:

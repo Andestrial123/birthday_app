@@ -9,3 +9,11 @@ class MainQuizState extends MainState {
 
   MainQuizState(this.data);
 }
+
+class MainCorrectState extends MainState {}
+
+class MainIncorrectState extends MainState {
+  final String badMove;
+
+  MainIncorrectState(this.badMove);
+}

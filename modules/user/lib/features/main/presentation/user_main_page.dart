@@ -1,6 +1,8 @@
+import 'package:animated_hint_textfield/animated_hint_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user/features/main/domain/main_cubit.dart';
+import 'package:user/features/main/presentation/widgets/incorrect_widget.dart';
 import 'package:user/features/main/presentation/widgets/quiz_widget.dart';
 
 import '../data/db/db.dart';
@@ -21,10 +23,36 @@ class _UserMainPageState extends State<UserMainPage> {
         child: BlocBuilder<MainCubit, MainState>(
           builder: (BuildContext context, state) {
             return switch (state) {
-              MainInitial() => const Text("Alloha ))"),
+              MainInitial() => const Center(child: Text("Alloha, Ожидай)))")),
               MainQuizState(data: var data) => QuizWidget(
                   data: data,
-                  onSubmit: () {},
+                  onSubmit: (answer) {
+                    context
+                        .read<MainCubit>()
+                        .submitQuizAnswer(answer.isCorrect!);
+                  },
+                ),
+              MainCorrectState() => Center(
+                  child: AnimatedTextField(
+                    readOnly: true,
+                    animationType: Animationtype.typer,
+                    textAlign: TextAlign.center,
+                    hintTextAlign: TextAlign.center,
+                    hintTexts: const [
+                      "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tУмничка)"
+                    ],
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      // filled: true,
+                      contentPadding: EdgeInsets.all(12),
+                    ),
+                  ),
+                ),
+              MainIncorrectState(badMove: var badMove) => IncorrectWidget(
+                  title: badMove,
+                  onDone: () {
+                    context.read<MainCubit>().resetState();
+                  },
                 )
             };
           },
