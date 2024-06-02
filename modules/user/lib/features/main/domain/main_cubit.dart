@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared/models/link_model/link_model.dart';
+import 'package:shared/models/map_model/map_model.dart';
 import 'package:shared/models/quiz_model/quiz_model.dart';
 import 'package:user/features/main/data/constats/constants.dart';
 
@@ -21,6 +22,10 @@ class MainCubit extends Cubit<MainState> {
             break;
           case "ChallengeType.funnyLink":
             emit(MainLinkState(LinkModel.fromJson(mapEvent['data'])));
+            break;
+          case "ChallengeType.mapSearching":
+            emit(MainMapState(MapModel.fromJson(mapEvent['data'])));
+            break;
         }
       }
     });

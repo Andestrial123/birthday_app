@@ -20,7 +20,7 @@ class MainCubit extends Cubit<MainState> {
     _db.set(quizModel.toJson());
   }
 
-  Future<void> sendMapEvent(QuizModel quizModel) async {
-    _db.set(quizModel);
+  Future<void> sendMapEvent(BaseModel quizModel) async {
+    _db.set(quizModel.toJson());
   }
 }

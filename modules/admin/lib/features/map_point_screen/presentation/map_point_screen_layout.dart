@@ -1,19 +1,22 @@
+import 'package:admin/features/main_screen/domain/main_cubit.dart';
 import 'package:admin/features/map_point_screen/presentation/coordinates_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared/models/base_model.dart';
+import 'package:shared/models/map_model/map_model.dart';
 
 class MapPointScreenLayout extends StatefulWidget {
   const MapPointScreenLayout({super.key});
 
   @override
-  _MapPointScreenLayoutState createState() => _MapPointScreenLayoutState();
+  MapPointScreenLayoutState createState() => MapPointScreenLayoutState();
 }
 
-class _MapPointScreenLayoutState extends State<MapPointScreenLayout> {
+class MapPointScreenLayoutState extends State<MapPointScreenLayout> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _coordinateController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  String _descriptionText = '';
 
   @override
   void dispose() {
@@ -26,7 +29,7 @@ class _MapPointScreenLayoutState extends State<MapPointScreenLayout> {
     if (value == null || value.isEmpty) {
       return 'Please enter coordinates';
     }
-    final regex = RegExp(r'^\d{2}\.\d{5},\s?\d{2}\.\d{5}$');
+    final regex = RegExp(r'^\d{2}\.\d{6},\s?\d{2}\.\d{6}$');
     if (!regex.hasMatch(value)) {
       return 'Please enter valid coordinates';
     }
@@ -34,12 +37,12 @@ class _MapPointScreenLayoutState extends State<MapPointScreenLayout> {
   }
 
   void _submitForm() {
-    if (_formKey.currentState?.validate() ?? false) {
-      setState(() {
-        _descriptionText = _descriptionController.text;
-      });
-      FocusScope.of(context).unfocus();
-    }
+    context.read<MainCubit>().sendMapEvent(BaseModel(
+        challengeType: ChallengeType.mapSearching,
+        data: MapModel(
+            title: _descriptionController.text,
+            coords: _coordinateController.text).toJson()));
+    Navigator.of(context).pop();
   }
 
   @override
@@ -56,10 +59,6 @@ class _MapPointScreenLayoutState extends State<MapPointScreenLayout> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  _descriptionText,
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                ),
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _coordinateController,
@@ -70,7 +69,8 @@ class _MapPointScreenLayoutState extends State<MapPointScreenLayout> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9.,\s]')),
                     CoordinatesInputFormatter(),
