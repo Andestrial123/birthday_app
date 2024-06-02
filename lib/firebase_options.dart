@@ -60,11 +60,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAuwnTyd_Db_eo6XfsbSxHXb_2LffsUaUA',
-    appId: '1:613618748931:ios:4d20dd3b5d9415d899c836',
+    appId: '1:613618748931:ios:54215854e5980aec99c836',
     messagingSenderId: '613618748931',
     projectId: 'birthday-app-f6d90',
     databaseURL: 'https://birthday-app-f6d90-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'birthday-app-f6d90.appspot.com',
-    iosBundleId: 'com.example.birthdayApp',
+    iosBundleId: 'com.example.birthday.app',
   );
+
 }
