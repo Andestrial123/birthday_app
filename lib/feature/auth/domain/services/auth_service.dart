@@ -18,7 +18,7 @@ class AuthServiceImpl implements AuthService {
   @override
   Future<void> verifyPhoneNumber(String phoneNumber) async {
     _firebaseAuth.verifyPhoneNumber(
-      phoneNumber: phoneNumber ?? "",
+      phoneNumber: phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) async {
         await _firebaseAuth.signInWithCredential(credential);
       },

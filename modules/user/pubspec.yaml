@@ -10,6 +10,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  firebase_core:
+  firebase_database:
+  flutter_bloc:
+  get_it:
+
+  shared:
+    path: ../../modules/shared
 
 dev_dependencies:
   flutter_test:
