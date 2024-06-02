@@ -22,7 +22,7 @@ class QuestionModal extends StatelessWidget {
             Center(
               child: Text(
                 title,
-                style: TextStyle(fontSize: 24),
+                style: const TextStyle(fontSize: 24),
               ),
             ),
             sbH24,
@@ -46,14 +46,14 @@ class QuestionModal extends StatelessWidget {
                     questionController.clear();
                     Navigator.of(context).pop();
                   },
-                  child: Text('Save'),
+                  child: const Text('Save'),
                 ),
-                sbH16,
+                sbW16,
                 ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('Cancel'),
+                  child: const Text('Cancel'),
                 ),
               ],
             ),
