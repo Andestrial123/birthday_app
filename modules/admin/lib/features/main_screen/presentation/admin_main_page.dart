@@ -20,65 +20,69 @@ class AdminMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-          children: [
-            const Text("Hello i'm Admin"),
-            const Spacer(),
-            Center(
-              child: Column(
-                children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BlocProvider(
+      children: [
+        const Text("Hello i'm Admin"),
+        const Spacer(),
+        Center(
+          child: Column(
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BlocProvider(
                                   lazy: false,
                                   create: (_) => MainCubit(db),
                                   child: const QuizScreenLayout(
-                                        titleAppBar: 'Quiz Screen',
-                                      ),
+                                    titleAppBar: 'Quiz Screen',
+                                  ),
                                 )));
-                      },
-                      child: const Text('Add quiz')),
-                  sbH24,
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const MapPointScreenLayout()));
-                      },
-                      child: const Text('Add map point')),
-                  sbH24,
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LinkScreenLayout()));
-                      },
-                      child: const Text('Add link with comment')),
-                ],
-              ),
-            ),
-            const Spacer(),
-            ElevatedButton(onPressed: onLogout, child: const Text("Logout")),
-            ElevatedButton(
-                onPressed: () {
-                  db.set(BaseModel<Map<String, dynamic>>(
-                          challengeType: ChallengeType.quiz,
-                          data: QuizModel(
-                              question: "Your gay ?",
-                              answers: <Answers>[
-                                Answers(title: "No", isCorrect: false),
-                                Answers(title: "Yes", isCorrect: true),
-                                Answers(title: "Fuck Off", isCorrect: false),
-                              ]).toJson())
-                      .toJson());
-                },
-                child: const Text("Send event"))
-          ],
-        );
+                  },
+                  child: const Text('Add quiz')),
+              sbH24,
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BlocProvider(
+                                lazy: false,
+                                create: (_) => MainCubit(db),
+                                child: const MapPointScreenLayout())));
+                  },
+                  child: const Text('Add map point')),
+              sbH24,
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BlocProvider(
+                                lazy: false,
+                                create: (_) => MainCubit(db),
+                                child: const LinkScreenLayout())));
+                  },
+                  child: const Text('Add link with comment')),
+            ],
+          ),
+        ),
+        const Spacer(),
+        ElevatedButton(onPressed: onLogout, child: const Text("Logout")),
+        ElevatedButton(
+            onPressed: () {
+              db.set(BaseModel<Map<String, dynamic>>(
+                      challengeType: ChallengeType.quiz,
+                      data:
+                          QuizModel(question: "Your gay ?", answers: <Answers>[
+                        Answers(title: "No", isCorrect: false),
+                        Answers(title: "Yes", isCorrect: true),
+                        Answers(title: "Fuck Off", isCorrect: false),
+                      ]).toJson())
+                  .toJson());
+            },
+            child: const Text("Send event"))
+      ],
+    );
   }
 }

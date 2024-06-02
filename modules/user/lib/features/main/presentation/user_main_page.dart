@@ -1,9 +1,11 @@
 import 'package:animated_hint_textfield/animated_hint_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:user/features/main/domain/main_cubit.dart';
 import 'package:user/features/main/presentation/widgets/incorrect_widget.dart';
 import 'package:user/features/main/presentation/widgets/quiz_widget.dart';
+import 'package:volume_control/volume_control.dart';
 
 import '../data/db/db.dart';
 
@@ -53,6 +55,22 @@ class _UserMainPageState extends State<UserMainPage> {
                   onDone: () {
                     context.read<MainCubit>().resetState();
                   },
+                ),
+              MainLinkState(data: var data) => Center(
+                  child: Column(
+                    children: [
+                      Text(data.title ?? ""),
+                      IconButton(
+                          onPressed: () async {
+                            await VolumeControl.setVolume(1);
+                            await launchUrl(Uri.parse(data.link!));
+                            if (context.mounted) {
+                              context.read<MainCubit>().resetState();
+                            }
+                          },
+                          icon: const Icon(Icons.accessibility))
+                    ],
+                  ),
                 )
             };
           },

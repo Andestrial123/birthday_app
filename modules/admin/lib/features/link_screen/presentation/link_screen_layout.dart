@@ -1,27 +1,36 @@
+import 'package:admin/features/main_screen/domain/main_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared/models/base_model.dart';
+import 'package:shared/models/link_model/link_model.dart';
 
 class LinkScreenLayout extends StatefulWidget {
   const LinkScreenLayout({super.key});
 
   @override
-  _LinkScreenLayoutState createState() => _LinkScreenLayoutState();
+  LinkScreenLayoutState createState() => LinkScreenLayoutState();
 }
 
-class _LinkScreenLayoutState extends State<LinkScreenLayout> {
-  final TextEditingController _firstTextFieldController = TextEditingController();
-  final TextEditingController _secondTextFieldController = TextEditingController();
-  String _displayedText = '';
+class LinkScreenLayoutState extends State<LinkScreenLayout> {
+  final TextEditingController _titleTextFieldController =
+      TextEditingController();
+  final TextEditingController _linkTextFieldController =
+      TextEditingController();
 
   void _saveText() {
-    setState(() {
-      _displayedText = _secondTextFieldController.text;
-    });
+    context.read<MainCubit>().sendLinkEvent(BaseModel(
+        challengeType: ChallengeType.funnyLink,
+        data: LinkModel(
+          link: _linkTextFieldController.text,
+          title: _titleTextFieldController.text,
+        ).toJson()));
+    Navigator.of(context).pop();
   }
 
   @override
   void dispose() {
-    _firstTextFieldController.dispose();
-    _secondTextFieldController.dispose();
+    _titleTextFieldController.dispose();
+    _linkTextFieldController.dispose();
     super.dispose();
   }
 
@@ -37,13 +46,9 @@ class _LinkScreenLayoutState extends State<LinkScreenLayout> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                _displayedText,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-              ),
               const SizedBox(height: 16),
               TextField(
-                controller: _firstTextFieldController,
+                controller: _linkTextFieldController,
                 decoration: InputDecoration(
                   labelText: 'https://rt.pornhub.com',
                   border: OutlineInputBorder(
@@ -53,7 +58,7 @@ class _LinkScreenLayoutState extends State<LinkScreenLayout> {
               ),
               const SizedBox(height: 16),
               TextField(
-                controller: _secondTextFieldController,
+                controller: _titleTextFieldController,
                 decoration: InputDecoration(
                   labelText: 'Second Text Field',
                   border: OutlineInputBorder(
