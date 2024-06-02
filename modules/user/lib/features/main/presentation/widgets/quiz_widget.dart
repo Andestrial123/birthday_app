@@ -3,7 +3,7 @@ import 'package:shared/models/quiz_model/quiz_model.dart';
 
 class QuizWidget extends StatefulWidget {
   final QuizModel data;
-  final Function() onSubmit;
+  final Function(Answers) onSubmit;
 
   const QuizWidget({super.key, required this.data, required this.onSubmit});
 
@@ -34,6 +34,10 @@ class _QuizWidgetState extends State<QuizWidget> {
             ],
           );
         }),
+        const Spacer(),
+        ElevatedButton(
+            onPressed: () => widget.onSubmit(selectedModel),
+            child: const Text("Send answer"))
       ],
     );
   }
