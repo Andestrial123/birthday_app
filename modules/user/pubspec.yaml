@@ -16,7 +16,8 @@ dependencies:
   flutter_bloc:
   get_it:
   animated_hint_textfield: ^1.0.1
-
+  url_launcher: 6.1.11
+  volume_control: ^0.1.5
 
   shared:
     path: ../../modules/shared

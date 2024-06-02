@@ -10,6 +10,12 @@ class MainQuizState extends MainState {
   MainQuizState(this.data);
 }
 
+class MainLinkState extends MainState {
+  final LinkModel data;
+
+  MainLinkState(this.data);
+}
+
 class MainCorrectState extends MainState {}
 
 class MainIncorrectState extends MainState {
