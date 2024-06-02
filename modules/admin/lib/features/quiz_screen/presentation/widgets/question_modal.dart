@@ -4,7 +4,7 @@ class QuestionModal extends StatelessWidget {
   final Function(String) onSave;
   final String title;
 
-  QuestionModal({required this.onSave, required this.title});
+  const QuestionModal({super.key, required this.onSave, required this.title});
 
   @override
   Widget build(BuildContext context) {
