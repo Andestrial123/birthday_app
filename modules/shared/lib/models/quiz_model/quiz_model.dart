@@ -34,6 +34,14 @@ class Answers {
 
   String? get title => _title;
 
+  setIsCorrect(value){
+    _isCorrect = value;
+  }
+
+  setTitle(value){
+    _title = value;
+  }
+
   Answers({bool? isCorrect, String? title}) {
     _isCorrect = isCorrect;
     _title = title;

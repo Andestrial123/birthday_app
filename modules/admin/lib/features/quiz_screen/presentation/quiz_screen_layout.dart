@@ -1,5 +1,10 @@
 import 'package:admin/constans/const.dart';
+import 'package:admin/features/main_screen/domain/main_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared/models/base_model.dart';
+import 'package:shared/models/quiz_model/quiz_model.dart';
+
 import 'widgets/question_modal.dart';
 
 class QuizScreenLayout extends StatefulWidget {
@@ -14,7 +19,7 @@ class QuizScreenLayout extends StatefulWidget {
 class _QuizScreenLayoutState extends State<QuizScreenLayout> {
   final TextEditingController _contentController = TextEditingController();
   String _displayText = '';
-  final List<Map<String, dynamic>> _questions = [];
+  final List<Answers> _questions = [];
 
   @override
   void dispose() {
@@ -37,13 +42,13 @@ class _QuizScreenLayoutState extends State<QuizScreenLayout> {
 
   void _addQuestion(String question) {
     setState(() {
-      _questions.add({'question': question, 'isChecked': false});
+      _questions.add(Answers(title: question, isCorrect: false));
     });
   }
 
   void _editQuestion(int index, String newQuestion) {
     setState(() {
-      _questions[index]['question'] = newQuestion;
+      _questions[index].setTitle(newQuestion);
     });
   }
 
@@ -54,8 +59,10 @@ class _QuizScreenLayoutState extends State<QuizScreenLayout> {
   }
 
   void _toggleCheckbox(int index) {
+    print("HERE");
+    print(_questions[index].isCorrect);
     setState(() {
-      _questions[index]['isChecked'] = !_questions[index]['isChecked'];
+      _questions[index].setIsCorrect(!_questions[index].isCorrect!);
     });
   }
 
@@ -66,7 +73,16 @@ class _QuizScreenLayoutState extends State<QuizScreenLayout> {
         title: Text(widget.titleAppBar),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
-          IconButton(onPressed: (){}, icon: const Icon(Icons.done))
+          IconButton(
+              onPressed: () {
+                context.read<MainCubit>().sendQuizEvent(BaseModel(
+                    challengeType: ChallengeType.quiz,
+                    data: QuizModel(
+                      question: _displayText,
+                      answers: _questions,
+                    ).toJson()));
+              },
+              icon: const Icon(Icons.done))
         ],
       ),
       body: Padding(
@@ -136,25 +152,24 @@ class _QuizScreenLayoutState extends State<QuizScreenLayout> {
                     margin: const EdgeInsets.symmetric(vertical: 4),
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: question['isChecked']
+                      color: question.isCorrect!
                           ? Colors.green.withOpacity(0.2)
                           : Colors.transparent,
                       border: Border.all(
-                        color:
-                            question['isChecked'] ? Colors.green : Colors.grey,
+                        color: question.isCorrect! ? Colors.green : Colors.grey,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
                       children: [
                         Checkbox(
-                          value: question['isChecked'],
+                          value: question.isCorrect!,
                           onChanged: (bool? value) {
                             _toggleCheckbox(index);
                           },
                         ),
                         Expanded(
-                          child: Text(question['question']),
+                          child: Text(question.title ?? ""),
                         ),
                         IconButton(
                           icon: const Icon(Icons.edit),
@@ -196,7 +211,7 @@ class _QuizScreenLayoutState extends State<QuizScreenLayout> {
 
   void _showEditQuestionModal(int index) {
     final TextEditingController editController =
-        TextEditingController(text: _questions[index]['question']);
+        TextEditingController(text: _questions[index].title);
     showDialog(
       context: context,
       builder: (context) {
