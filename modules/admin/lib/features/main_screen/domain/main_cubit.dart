@@ -1,16 +1,22 @@
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared/models/base_model.dart';
-import 'package:shared/models/quiz_model/quiz_model.dart';
+import 'package:shared/shared.dart';
 
 part 'main_state.dart';
 
 class MainCubit extends Cubit<MainState> {
-  MainCubit(DatabaseReference db)
-      : _db = db,
-        super(MainInitial());
+  MainCubit(DatabaseReference userDb, DatabaseReference answersDb)
+      : _db = userDb,
+        _answersDb = answersDb,
+        super(MainInitial()) {
+    _answersDb.onValue.listen((event) {
+      final newMap = event.snapshot.value as Map?;
+      if (newMap != null) {
+        emit(MainReceiveAnswer(Answers.fromJson(newMap)));
+      }
+    });
+  }
 
   final DatabaseReference _db;
+  final DatabaseReference _answersDb;
 
   Future<void> sendQuizEvent(BaseModel quizModel) async {
     _db.set(quizModel.toJson());

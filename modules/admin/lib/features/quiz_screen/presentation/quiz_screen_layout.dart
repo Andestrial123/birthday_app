@@ -59,8 +59,6 @@ class _QuizScreenLayoutState extends State<QuizScreenLayout> {
   }
 
   void _toggleCheckbox(int index) {
-    print("HERE");
-    print(_questions[index].isCorrect);
     setState(() {
       _questions[index].setIsCorrect(!_questions[index].isCorrect!);
     });

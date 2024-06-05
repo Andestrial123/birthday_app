@@ -1,17 +1,14 @@
 import 'dart:math';
 
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared/models/link_model/link_model.dart';
-import 'package:shared/models/map_model/map_model.dart';
-import 'package:shared/models/quiz_model/quiz_model.dart';
+import 'package:shared/shared.dart';
 import 'package:user/features/main/data/constats/constants.dart';
 
 part 'main_state.dart';
 
 class MainCubit extends Cubit<MainState> {
-  MainCubit(DatabaseReference db)
+  MainCubit(DatabaseReference db, DatabaseReference answerDb)
       : _db = db,
+        _answersDb = answerDb,
         super(MainInitial()) {
     _db.onValue.listen((event) {
       if (event.snapshot.value != null) {
@@ -32,10 +29,12 @@ class MainCubit extends Cubit<MainState> {
   }
 
   final DatabaseReference _db;
+  final DatabaseReference _answersDb;
 
-  Future<void> submitQuizAnswer(bool isCorrect) async {
+  Future<void> submitQuizAnswer(Answers answers) async {
     _db.remove();
-    if (isCorrect) {
+    _answersDb.set(answers.toJson());
+    if (answers.isCorrect == true) {
       emit(MainCorrectState());
       await Future.delayed(const Duration(seconds: 3));
       emit(MainInitial());

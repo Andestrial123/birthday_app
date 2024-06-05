@@ -9,3 +9,9 @@ class MainSendQuizState extends MainState {}
 class MainSendMapState extends MainState {}
 
 class MainSendLinkState extends MainState {}
+
+class MainReceiveAnswer extends MainState {
+  final Answers answers;
+
+  MainReceiveAnswer(this.answers);
+}
