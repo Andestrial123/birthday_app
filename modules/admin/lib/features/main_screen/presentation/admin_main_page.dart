@@ -1,10 +1,12 @@
 library admin;
 
 import 'package:admin/constans/const.dart';
+import 'package:admin/features/escape_screen/presentation/escape_screen_layout.dart';
 import 'package:admin/features/link_screen/presentation/link_screen_layout.dart';
 import 'package:admin/features/main_screen/domain/main_cubit.dart';
 import 'package:admin/features/map_point_screen/presentation/map_point_screen_layout.dart';
 import 'package:admin/features/quiz_screen/presentation/quiz_screen_layout.dart';
+import 'package:admin/features/spawn_screen/presentation/spawn_screen_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:shared/models/spawn_model/spawn_model.dart';
 import 'package:shared/models/escape_model/escape_model.dart';
@@ -76,21 +78,23 @@ class AdminMainPage extends StatelessWidget {
                   sbH24,
                   ElevatedButton(
                       onPressed: () {
-                        _mainCubit.sendSpawnEvent(BaseModel(
-                            challengeType: ChallengeType.spawnButtons,
-                            data: SpawnModel(
-                              1000
-                            ).toJson()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BlocProvider.value(
+                                    value: _mainCubit,
+                                    child: const SpawnScreenLayout())));
                       },
                       child: const Text('Spawn buttons')),
                   sbH24,
                   ElevatedButton(
                       onPressed: () {
-                        _mainCubit.sendSpawnEvent(BaseModel(
-                            challengeType: ChallengeType.escapeButton,
-                            data: EscapeModel(
-                                100
-                            ).toJson()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BlocProvider.value(
+                                    value: _mainCubit,
+                                    child: const EscapeScreenLayout())));
                       },
                       child: const Text('Escape button')),
                   sbH24,

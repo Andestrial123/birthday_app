@@ -31,14 +31,14 @@ class MainCubit extends Cubit<MainState> {
   }
 
   Future<void> sendSpawnEvent(BaseModel spawnModel) async{
-    print(spawnModel.toJson());
+    _db.set(spawnModel.toJson());
   }
 
   Future<void> sendEscapeEvent(BaseModel escapeModel) async{
-    print(escapeModel.toJson());
+    _db.set(escapeModel.toJson());
   }
 
   Future<void> sendPixelEvent(BaseModel escapeModel) async{
-    print(escapeModel.toJson());
+    _db.set(escapeModel.toJson());
   }
 }

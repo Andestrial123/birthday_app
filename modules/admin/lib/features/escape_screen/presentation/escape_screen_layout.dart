@@ -3,23 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared/models/base_model.dart';
+import 'package:shared/models/escape_model/escape_model.dart';
 import 'package:shared/models/spawn_model/spawn_model.dart';
 
-class SpawnScreenLayout extends StatefulWidget {
-  const SpawnScreenLayout({super.key});
+class EscapeScreenLayout extends StatefulWidget {
+  const EscapeScreenLayout({super.key});
 
   @override
-  SpawnScreenLayoutState createState() => SpawnScreenLayoutState();
+  EscapeScreenLayoutState createState() => EscapeScreenLayoutState();
 }
 
-class SpawnScreenLayoutState extends State<SpawnScreenLayout> {
+class EscapeScreenLayoutState extends State<EscapeScreenLayout> {
   final TextEditingController _countTextFieldController =
   TextEditingController();
 
   void _sendEvent() {
     context.read<MainCubit>().sendLinkEvent(BaseModel(
-        challengeType: ChallengeType.spawnButtons,
-        data: SpawnModel(
+        challengeType: ChallengeType.escapeButton,
+        data: EscapeModel(
           int.parse(_countTextFieldController.text)
         ).toJson()));
     Navigator.of(context).pop();
@@ -35,7 +36,7 @@ class SpawnScreenLayoutState extends State<SpawnScreenLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Spawn Screen Layout'),
+        title: const Text('Escape Screen Layout'),
       ),
       body: Center(
         child: Padding(
@@ -51,7 +52,7 @@ class SpawnScreenLayoutState extends State<SpawnScreenLayout> {
                 ],
                 controller: _countTextFieldController,
                 decoration: InputDecoration(
-                  labelText: 'How much buttons must be spawned',
+                  labelText: 'How escapes after click',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
