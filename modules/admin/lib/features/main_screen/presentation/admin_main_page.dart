@@ -6,6 +6,8 @@ import 'package:admin/features/main_screen/domain/main_cubit.dart';
 import 'package:admin/features/map_point_screen/presentation/map_point_screen_layout.dart';
 import 'package:admin/features/quiz_screen/presentation/quiz_screen_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:shared/models/spawn_model/spawn_model.dart';
+import 'package:shared/models/escape_model/escape_model.dart';
 import 'package:shared/shared.dart';
 
 import '../data/db.dart';
@@ -71,6 +73,33 @@ class AdminMainPage extends StatelessWidget {
                                     child: const LinkScreenLayout())));
                       },
                       child: const Text('Add link with comment')),
+                  sbH24,
+                  ElevatedButton(
+                      onPressed: () {
+                        _mainCubit.sendSpawnEvent(BaseModel(
+                            challengeType: ChallengeType.spawnButtons,
+                            data: SpawnModel(
+                              1000
+                            ).toJson()));
+                      },
+                      child: const Text('Spawn buttons')),
+                  sbH24,
+                  ElevatedButton(
+                      onPressed: () {
+                        _mainCubit.sendSpawnEvent(BaseModel(
+                            challengeType: ChallengeType.escapeButton,
+                            data: EscapeModel(
+                                100
+                            ).toJson()));
+                      },
+                      child: const Text('Escape button')),
+                  sbH24,
+                  ElevatedButton(
+                      onPressed: () {
+                        _mainCubit.sendSpawnEvent(BaseModel(
+                            challengeType: ChallengeType.whitePixel));
+                      },
+                      child: const Text('White pixel')),
                 ],
               ),
             ),

@@ -1,4 +1,4 @@
-enum ChallengeType { quiz, mapSearching, funnyLink }
+enum ChallengeType { quiz, mapSearching, funnyLink, spawnButtons, escapeButton, whitePixel }
 
 class BaseModel<T> {
   ChallengeType? _challengeType;

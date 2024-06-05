@@ -14,8 +14,8 @@ class AppPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
-        return Material(
-            child: SafeArea(
+        return Scaffold(
+            body: SafeArea(
           child: switch (state) {
             AuthUserAuthenticated(role: var userRole) =>
               userRole == UserRole.user
