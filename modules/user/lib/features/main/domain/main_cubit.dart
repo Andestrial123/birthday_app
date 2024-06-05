@@ -24,10 +24,10 @@ class MainCubit extends Cubit<MainState> {
             emit(MainMapState(MapModel.fromJson(mapEvent['data'])));
             break;
           case "ChallengeType.spawnButtons":
-            print(mapEvent['data']);
+            emit(MainSpawnButtonState(SpawnModel.fromJson(mapEvent['data'])));
             break;
           case "ChallengeType.escapeButton":
-            print(mapEvent['data']);
+            emit(MainEscapeButtonState(EscapeModel.fromJson(mapEvent['data'])));
             break;
           case "ChallengeType.whitePixel":
             emit(MainWhitePixelState());

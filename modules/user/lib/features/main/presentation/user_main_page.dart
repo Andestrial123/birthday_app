@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:shared/shared.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:user/features/main/domain/main_cubit.dart';
+import 'package:user/features/main/presentation/widgets/escape_button_widget.dart';
 import 'package:user/features/main/presentation/widgets/incorrect_widget.dart';
 import 'package:user/features/main/presentation/widgets/map_util.dart';
 import 'package:user/features/main/presentation/widgets/quiz_widget.dart';
+import 'package:user/features/main/presentation/widgets/spawn_buttons_widget.dart';
 import 'package:user/features/main/presentation/widgets/white_pixel_widget.dart';
 import 'package:volume_control/volume_control.dart';
 
@@ -86,6 +88,22 @@ class _UserMainPageState extends State<UserMainPage> {
                 ),
               MainWhitePixelState() => WhitePixelWidget(
                   onTap: () async {
+                    context
+                        .read<MainCubit>()
+                        .resetState(nextState: MainCorrectState());
+                  },
+                ),
+              MainEscapeButtonState(data: var data) => EscapeButtonWidget(
+                  onTap: () {
+                    context
+                        .read<MainCubit>()
+                        .resetState(nextState: MainCorrectState());
+                  },
+                  count: data.count ?? 1,
+                ),
+              MainSpawnButtonState(data: var data) => SpawnButtonsWidget(
+                  model: data,
+                  onTap: () {
                     context
                         .read<MainCubit>()
                         .resetState(nextState: MainCorrectState());
