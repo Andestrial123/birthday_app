@@ -7,10 +7,12 @@ class MainCubit extends Cubit<MainState> {
       : _db = userDb,
         _answersDb = answersDb,
         super(MainInitial()) {
-    _answersDb.onValue.listen((event) {
+    _answersDb.onValue.listen((event) async {
       final newMap = event.snapshot.value as Map?;
       if (newMap != null) {
         emit(MainReceiveAnswer(Answers.fromJson(newMap)));
+        await Future.delayed(const Duration(seconds: 3));
+        _answersDb.remove();
       }
     });
   }
