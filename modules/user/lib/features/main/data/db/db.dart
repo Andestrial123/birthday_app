@@ -1,3 +1,4 @@
-import 'package:firebase_database/firebase_database.dart';
+import 'package:shared/shared.dart';
 
-final db = FirebaseDatabase.instance.ref("events");
+final userDb = FirebaseDatabase.instance.ref("events");
+final answerDb = FirebaseDatabase.instance.ref("answers");
