@@ -24,6 +24,8 @@ class MainMapState extends MainState {
 
 class MainCorrectState extends MainState {}
 
+class MainWhitePixelState extends MainState {}
+
 class MainIncorrectState extends MainState {
   final String badMove;
 

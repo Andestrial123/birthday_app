@@ -6,6 +6,7 @@ import 'package:user/features/main/domain/main_cubit.dart';
 import 'package:user/features/main/presentation/widgets/incorrect_widget.dart';
 import 'package:user/features/main/presentation/widgets/map_util.dart';
 import 'package:user/features/main/presentation/widgets/quiz_widget.dart';
+import 'package:user/features/main/presentation/widgets/white_pixel_widget.dart';
 import 'package:volume_control/volume_control.dart';
 
 import '../data/db/db.dart';
@@ -26,64 +27,71 @@ class _UserMainPageState extends State<UserMainPage> {
         child: BlocBuilder<MainCubit, MainState>(
           builder: (BuildContext context, state) {
             return switch (state) {
-                          MainInitial() => const Center(child: Text("Alloha, Ожидай)))")),
-                          MainQuizState(data: var data) => QuizWidget(
-              data: data,
-              onSubmit: (answer) {
-                context.read<MainCubit>().submitQuizAnswer(answer);
-              },
-            ),
-                          MainCorrectState() => Center(
-              child: AnimatedTextField(
-                readOnly: true,
-                animationType: Animationtype.typer,
-                textAlign: TextAlign.center,
-                hintTextAlign: TextAlign.center,
-                hintTexts: const [
-                  "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tУмничка)"
-                ],
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  // filled: true,
-                  contentPadding: EdgeInsets.all(12),
+              MainInitial() => const Center(child: Text("Alloha, Ожидай)))")),
+              MainQuizState(data: var data) => QuizWidget(
+                  data: data,
+                  onSubmit: (answer) {
+                    context.read<MainCubit>().submitQuizAnswer(answer);
+                  },
                 ),
-              ),
-            ),
-                          MainIncorrectState(badMove: var badMove) => IncorrectWidget(
-              title: badMove,
-              onDone: () {
-                context.read<MainCubit>().resetState();
-              },
-            ),
-                          MainLinkState(data: var data) => Center(
-              child: Column(
-                children: [
-                  Text(data.title ?? ""),
-                  IconButton(
+              MainCorrectState() => Center(
+                  child: AnimatedTextField(
+                    readOnly: true,
+                    animationType: Animationtype.typer,
+                    textAlign: TextAlign.center,
+                    hintTextAlign: TextAlign.center,
+                    hintTexts: const [
+                      "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tУмничка)"
+                    ],
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      // filled: true,
+                      contentPadding: EdgeInsets.all(12),
+                    ),
+                  ),
+                ),
+              MainIncorrectState(badMove: var badMove) => IncorrectWidget(
+                  title: badMove,
+                  onDone: () {
+                    context.read<MainCubit>().resetState();
+                  },
+                ),
+              MainLinkState(data: var data) => Center(
+                  child: Column(
+                    children: [
+                      Text(data.title ?? ""),
+                      IconButton(
+                          onPressed: () async {
+                            await VolumeControl.setVolume(1);
+                            await launchUrl(Uri.parse(data.link!));
+                            if (context.mounted) {
+                              context.read<MainCubit>().resetState();
+                            }
+                          },
+                          icon: const Icon(Icons.accessibility))
+                    ],
+                  ),
+                ),
+              MainMapState(data: var data) => Center(
+                  child: ElevatedButton(
                       onPressed: () async {
-                        await VolumeControl.setVolume(1);
-                        await launchUrl(Uri.parse(data.link!));
+                        await MapUtils.openMap(
+                            double.parse(data.coords?.split(",").first ?? ""),
+                            double.parse(data.coords?.split(",").last ?? ""));
                         if (context.mounted) {
                           context.read<MainCubit>().resetState();
                         }
                       },
-                      icon: const Icon(Icons.accessibility))
-                ],
-              ),
-            ),
-                          MainMapState(data: var data) => Center(
-              child: ElevatedButton(
-                  onPressed: () async {
-                    await MapUtils.openMap(
-                        double.parse(data.coords?.split(",").first ?? ""),
-                        double.parse(data.coords?.split(",").last ?? ""));
-                    if (context.mounted) {
-                      context.read<MainCubit>().resetState();
-                    }
+                      child: const Text("Click me")),
+                ),
+              MainWhitePixelState() => WhitePixelWidget(
+                  onTap: () async {
+                    context
+                        .read<MainCubit>()
+                        .resetState(nextState: MainCorrectState());
                   },
-                  child: const Text("Click me")),
-            )
-                        };
+                ),
+            };
           },
         ));
   }
