@@ -24,6 +24,20 @@ class MainMapState extends MainState {
 
 class MainCorrectState extends MainState {}
 
+class MainEscapeButtonState extends MainState {
+  final EscapeModel data;
+
+  MainEscapeButtonState(this.data);
+}
+
+class MainSpawnButtonState extends MainState {
+  final SpawnModel data;
+
+  MainSpawnButtonState(this.data);
+}
+
+class MainWhitePixelState extends MainState {}
+
 class MainIncorrectState extends MainState {
   final String badMove;
 

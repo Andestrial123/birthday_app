@@ -18,7 +18,7 @@ class EscapeScreenLayoutState extends State<EscapeScreenLayout> {
   TextEditingController();
 
   void _sendEvent() {
-    context.read<MainCubit>().sendLinkEvent(BaseModel(
+    context.read<MainCubit>().sendEscapeEvent(BaseModel(
         challengeType: ChallengeType.escapeButton,
         data: EscapeModel(
           int.parse(_countTextFieldController.text)

@@ -23,6 +23,15 @@ class MainCubit extends Cubit<MainState> {
           case "ChallengeType.mapSearching":
             emit(MainMapState(MapModel.fromJson(mapEvent['data'])));
             break;
+          case "ChallengeType.spawnButtons":
+            emit(MainSpawnButtonState(SpawnModel.fromJson(mapEvent['data'])));
+            break;
+          case "ChallengeType.escapeButton":
+            emit(MainEscapeButtonState(EscapeModel.fromJson(mapEvent['data'])));
+            break;
+          case "ChallengeType.whitePixel":
+            emit(MainWhitePixelState());
+            break;
         }
       }
     });
@@ -44,7 +53,11 @@ class MainCubit extends Cubit<MainState> {
     }
   }
 
-  Future<void> resetState() async {
+  Future<void> resetState({MainState? nextState}) async {
+    if (nextState != null) {
+      emit(nextState);
+      await Future.delayed(const Duration(seconds: 3));
+    }
     _db.remove();
     emit(MainInitial());
   }
